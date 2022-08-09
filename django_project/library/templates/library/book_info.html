@@ -1,0 +1,141 @@
+{% extends 'library/main.html' %}
+
+{% block content %}
+
+    <br>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Book</h5>
+            <hr>
+            <h3>{{book.title}}</h3>
+            <p></p>
+            <h6>Author(s):</h6>
+
+            {% for author_neat in authors_neat %}
+
+            <p>{{author_neat}}</p>
+
+            {% endfor %}
+
+            {% if book.notes %}
+                <h6>Notes:</h6>
+                <p>{{book.notes}}</p>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Information</h5>
+            <hr>
+            <h6>Genre(s):</h6>
+            {% for genre in book.genres.values %}
+                <p>{{genre.name}}</p>
+                {% endfor %}
+            <h6>Category:</h6>
+            <p>{{book.shelving_category}}</p>
+            <h6>Is in the Author's OwnVoice:</h6>
+            <p>{{book.is_ownvoice}}</p>
+            <h6>Set Outside the United States:</h6>
+            <p>{{book.is_not_in_USA}}</p>
+            <h6>Written in Verse:</h6>
+            <p>{{book.is_verse}}</p>
+            <h6>From an Independent Publisher:</h6>
+            <p>{{book.from_independent_publisher}}</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Character Information: table shows the number of characters of each identity-group present in the book</h5>
+        </div>
+        <div class="card card-body">
+            <table class="table table-sm">
+                <tr>
+                    <th>Race</th>
+                    <th>Gender</th>
+                </tr>
+                <tr>
+                    <td>
+                        {% for char_race_conn in char_race_conns %}
+
+                        <p>{{ char_race_conn }}</p>
+
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for char_gender_conn in char_gender_conns %}
+
+                        <p>{{ char_gender_conn }}</p>
+
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Non-Human</th>
+                    <th>Plus-Sized</th>
+                    <th>LGBTQIA+</th>
+                    <th>Immigrants</th>
+                    <th>Neurodiverse</th>
+                </tr>
+                <tr>
+                    <td>{{book.characters.non_humans}}</td>
+                    <td>{{book.characters.plus_size}}</td>
+                    <td>{{book.characters.lgbtqia}}</td>
+                    <td>{{book.characters.immigrants}}</td>
+                    <td>{{book.characters.neurodiverse}}</td>
+                </tr>
+                <tr>
+                    <th>Disabled</th>
+                    <th>Experiencing Homelessness or Low-Income</th>
+                    <th>Adverse Mental Health or Trauma Response</th>
+                    <th>Experiencing Addiction</th>
+                    <th>Notes</th>
+                </tr>
+                <tr>
+                    <td>{{book.characters.disabled}}</td>
+                    <td>{{book.characters.experiencing_homelessness_low_income}}</td>
+                    <td>{{book.characters.adverse_mental_health_trauma_response}}</td>
+                    <td>{{book.characters.addiction}}</td>
+                    <td>{{book.characters.notes}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Author Information:</h5>
+        </div>
+        <div class="card card-body">
+            <table class="table table-sm">
+                <tr>
+                    <th>Full Name</th>
+                    <th>Race(s)</th>
+                    <th>Gender</th>
+                    <th></th>
+                </tr>
+
+                {% for author in authors %}
+                    <tr>
+                        <td>{{author.full_name}}</td>
+                        <td>{% for race in author.races.values %}
+                            <p>{{race.name}}</p>
+                            {% endfor %}</td>
+                        <td>{{author.gender}}</td>
+                        <td><a class='btn btn-sm btn-info'href="{% url 'author_info' author.id %}">More Information</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

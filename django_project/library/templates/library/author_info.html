@@ -1,0 +1,101 @@
+{% extends 'library/main.html' %}
+
+{% block content %}
+
+    <br>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Author</h5>
+            <hr>
+            <h3>{{author.full_name}}</h3>
+            <p></p>
+            <h6>Non-Marginalized:</h6> 
+            <p>{{author.non_marginalized}}</p>
+            {% if author.notes %}
+                <h6>Notes:</h6>
+                <p>{{author.notes}}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md">
+        <div class="card card-body">
+                <h5>Information</h5>
+                <hr>
+                <h6>Race(s):</h6>
+                    {% for race in author.races.values %}
+                    <p>{{race.name}}</p>
+                    {% endfor %}
+                <h6>Gender:</h6>
+                <p>{{author.gender}}</p>
+                <h6>Uses OwnVoice:</h6>
+                <p>{{author.uses_ownvoice}}</p>
+                <h6>Immigrant:</h6>
+                <p>{{author.is_immigrant}}</p>
+                <h6>Neurodiverse:</h6>
+                <p>{{author.is_neurodiverse}}</p>
+                <h6>Disabled:</h6>
+                <p>{{author.is_disabled}}</p>
+                <h6>LGBTQIA+:</h6>
+                <p>{{author.is_lgbtqia}}</p>
+        </div>
+    </div>
+
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Number of Books</h5>
+            <hr>
+            <h1 style="text-align: center;padding: 10px">{{author.books.count}}</h1>
+        </div>
+    </div>
+</div>
+
+<br>
+    <div class="row">
+        <div class="col">
+            <div class="card card-body">
+                <h5>Search Author's Books</h5>
+            </div>
+            <div class="card card-body">
+                <form method="get">
+                    {{myFilter.form}}
+
+                    <button class="btn btn-primary" type="submit">Search</button>
+                    <a href="{% url 'author_info' author.id %}">(clear filters)</a>
+                </form>
+            </div>
+        </div>
+    </div>
+<br>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Books</h5>
+        </div>
+        <div class="card card-body">
+            <table class="table table-sm">
+                <tr>
+                    <th>Title</th>
+                    <th>Genre(s)</th>
+                    <th>Category</th>
+                    <th></th>
+                </tr>
+                {% for book in books %}
+                    <tr>
+                        <td>{{book.title}}</td>
+                        <td>{% for genre in book.genres.values %}
+                            <p>{{genre.name}}</p>
+                            {% endfor %}</td>
+                        <td>{{book.shelving_category}}</td>
+                        <td><a class='btn btn-sm btn-info'href="{% url 'book_info' book.id %}">More Information</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'library/main.html' %}
+
+{% block content %}
+
+<h1>Home</h1>
+
+{% include 'library/status.html' %}
+
+<br>
+
+<div class="row">
+    <div class="col-md-5">
+        <h5>Authors         <a href="{% url 'authors' %}">(see all)</a></h5>
+        <div class="card card-body">
+            <table class="table table-sm">
+                <tr>
+                    <th>Full Name</th>
+                    <th>Race(s)</th>
+                    <th>Gender</th>
+                    <th></th>
+                </tr>
+
+                {% for author in authors %}
+                    <tr>
+                        <td>{{author.full_name}}</td>
+                        <td>{% for race in author.races.values %}
+                            <p>{{race.name}}</p>
+                            {% endfor %}
+                        </td>
+                        <td>{{author.gender.name}}</td>
+                        <td><a class='btn btn-sm btn-info' href="{% url 'author_info' author.id %}">More Information</a></td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <h5>Books           <a href="{% url 'books' %}">(see all)</a></h5>
+        <div class="card card-body">
+            <table class="table table-sm">
+                <tr>
+                    <th>Title</th>
+                    <th>Author(s)</th>
+                    <th>Genre</th>
+                    <th>Category</th>
+                    <th></th>
+                </tr>
+
+                {% for book in books %}
+                    <tr>
+                        <td>{{book.title}}</td>
+                        <td>{% for author in book.author_set.values %}
+                            <p>{{author.full_name}}</p>
+                            {% endfor %}</td>
+                        <td>{% for genre in book.genres.values %}
+                            <p>{{genre.name}}</p>
+                            {% endfor %}</td>
+                        <td>{{book.shelving_category}}</td>
+                        <td><a class='btn btn-sm btn-info' href="{% url 'book_info' book.id %}">More Information</a></td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <a class='btn btn-block btn-info'href="{% url 'authors' %}">See All Authors and Search</a>
+    </div>
+
+    <div class="col-md-7">
+        <a class='btn btn-block btn-info'href="{% url 'books' %}">See All Books and Search</a>
+    </div>
+</div>
+
+{% endblock %}

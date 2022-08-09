@@ -1,0 +1,114 @@
+{% extends 'library/main.html' %}
+
+{% block content %}
+
+<h1>Books</h1>
+
+        <br>
+        <div class="row">
+            <div class="col">
+                <div class="card card-body">
+                    <h5>Search Books</h5>
+                </div>
+                <div class="card card-body">
+                    <form method="get">
+                        {{myFilter.form}}
+
+                        <button class="btn btn-primary" type="submit">Search</button>
+                        <a href="{% url 'books' %}">(clear filters)</a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <br>
+        <div class="row">
+
+            <div class="col">
+                <div class="col-md">
+                    <div class="card text-center text-white  mb-3" id="total-authors">
+                        <div class="card-header">
+                            <h5 class="card-title">Percent of Total Books</h5>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{filtered_percent}}%</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="col-md">
+                    <div class="card text-center text-white  mb-3" id="diverse-authors">
+                        <div class="card-header">
+                            <h5 class="card-title">Number of Results</h5>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{filtered_number}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="col-md">
+                    <div class="card text-center text-white  mb-3" id="total-books">
+                        <div class="card-header">
+                            <h5 class="card-title">Total Books</h5>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{total_number}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md">
+                <div class="card card-body">
+                    <h5>Filtered Books</h5>
+                </div>
+                <div class="card card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Title</th>
+                            <th>Author(s)</th>
+                            <th>Genre(s)</th>
+                            <th>Category</th>
+                            <th>Own Voice</th>
+                            <th>Set Outside the US</th>
+                            <th>Written in Verse</th>
+                            <th>From an Independent Publisher</th>
+                            <th>Notes</th>
+                            <th></th>
+                        </tr>
+
+                        {% for book in books %}
+                            <tr>
+                                <td>{{book.title}}</td>
+                                <td>{% for author in book.author_set.values %}
+                                    <p>{{author.full_name}}</p>
+                                    {% endfor %}</td>
+                                <td>{% for genre in book.genres.values %}
+                                    <p>{{genre.name}}</p>
+                                    {% endfor %}</td>
+                                <td>{{book.shelving_category}}</td>
+                                <td>{{book.is_ownvoice}}</td>
+                                <td>{{book.is_not_in_USA}}</td>
+                                <td>{{book.is_verse}}</td>
+                                <td>{{book.from_independent_publisher}}</td>
+                                <td>{{book.notes}}</td>
+                                <td><a class='btn btn-small btn-info' href="{% url 'book_info' book.id %}">See More</a></td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a class="btn btn-sm btn-outline-info" href="{% url 'books' %}">clear search/back to top</a>
+        </div>
+
+{% endblock %}
